@@ -38,8 +38,8 @@ load_gff_list <- function(input_files, n_cores)
   on.exit(file.remove(list.files(pattern = "gffTMP")))
   on.exit(stopCluster(cl), add = T)
 
-  input_files <- as_tibble(input_files) %>% rename(File = 1)
-  folderName <- paste(getwd(),"/",md5(paste(input_files$File, sep = "",collapse = "")),"_gffList",sep = "",collapse = "")
+  input_files <- as_tibble(input_files) %>% rename(value = 1)
+  folderName <- paste(getwd(),"/",md5(paste(input_files$value, sep = "",collapse = "")),"_gffList",sep = "",collapse = "")
 
   if(file.exists(paste(folderName,"/gffObject.Rdata", sep = "", collapse = "")))
   {
@@ -59,10 +59,10 @@ load_gff_list <- function(input_files, n_cores)
   {
 
     tempFile = tempfile(pattern = "gffTMP")
-    print(as.character(input_files$File[i]))
-    system(paste("csplit ","-f ",tempFile, as.character(input_files$File[i])," /#FASTA/"),ignore.stdout = T)
+    print(as.character(input_files$value[i]))
+    system(paste("csplit ","-f ",tempFile, as.character(input_files$value[i])," /#FASTA/"),ignore.stdout = T)
 
-    pathName<- gsub(".gff","",basename(as.character(input_files$File[i])))
+    pathName<- gsub(".gff","",basename(as.character(input_files$value[i])))
 
     gff <- readGFF(paste(tempFile,"00",sep = "",collapse = ""))
     writeGFF(gff,paste(folderName,"/gff/",pathName,".gff",sep = "",collapse = "") )                         ##Write the gff file
