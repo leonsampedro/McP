@@ -60,7 +60,7 @@ load_gff_list <- function(input_files, n_cores)
 
     tempFile = tempfile(pattern = "gffTMP")
     print(as.character(input_files$File[i]))
-    system(paste("csplit "," -f ",tempFile, as.character(input_files$File[i])," /#FASTA/"),ignore.stdout = T)
+    system(paste("csplit ","-f ",tempFile, as.character(input_files$File[i])," /#FASTA/"),ignore.stdout = T)
 
     pathName<- gsub(".gff","",basename(as.character(input_files$File[i])))
 
